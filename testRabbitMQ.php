@@ -6,7 +6,7 @@ use RPurinton\RabbitMQ;
 
 RabbitMQ::publish('rabbitmq-test', 'Hello, world!');
 
-$mq = new RabbitMQ('rabbitmq-test', function (string $message) use ($loop): bool {
+$mq = new RabbitMQ('rabbitmq-test', function (string $message): bool {
     if ($message === 'Hello, world!') {
         echo "Success!\n";
     } else {
