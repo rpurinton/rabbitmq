@@ -158,6 +158,7 @@ class RabbitMQ
             "user"      => "string",
             "password"  => "string",
             "port"      => "int",
+            "heartbeat" => "int",
         ]))->config;
     }
 }
