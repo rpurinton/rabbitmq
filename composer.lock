@@ -153,22 +153,23 @@
         },
         {
             "name": "rpurinton/bunny",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rpurinton/bunny.git",
-                "reference": "3b811c8fc9756c908d1ee1e0201808e81242f0d6"
+                "reference": "375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rpurinton/bunny/zipball/3b811c8fc9756c908d1ee1e0201808e81242f0d6",
-                "reference": "3b811c8fc9756c908d1ee1e0201808e81242f0d6",
+                "url": "https://api.github.com/repos/rpurinton/bunny/zipball/375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e",
+                "reference": "375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
                 "react/event-loop": "^1.0 || ^0.5 || ^0.4",
-                "react/promise": "^3.0 || ^2.2"
+                "react/promise": "^3.0 || ^2.2",
+                "rpurinton/config": "^1.0"
             },
             "suggest": {
                 "ext-pcntl": "For using synchronous AMQP/RabbitMQ client"
@@ -210,22 +211,22 @@
             ],
             "support": {
                 "issues": "https://github.com/rpurinton/bunny/issues",
-                "source": "https://github.com/rpurinton/bunny/tree/1.0.2"
+                "source": "https://github.com/rpurinton/bunny/tree/1.0.3"
             },
-            "time": "2025-02-18T03:15:09+00:00"
+            "time": "2025-02-18T23:49:00+00:00"
         },
         {
             "name": "rpurinton/config",
-            "version": "1.0.5",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rpurinton/config.git",
-                "reference": "edcf0f30169837565c5546060ce91b51deaa7a8b"
+                "reference": "040b53569830d4deee4351dfdbc308d217e0c0be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rpurinton/config/zipball/edcf0f30169837565c5546060ce91b51deaa7a8b",
-                "reference": "edcf0f30169837565c5546060ce91b51deaa7a8b",
+                "url": "https://api.github.com/repos/rpurinton/config/zipball/040b53569830d4deee4351dfdbc308d217e0c0be",
+                "reference": "040b53569830d4deee4351dfdbc308d217e0c0be",
                 "shasum": ""
             },
             "require": {
@@ -251,9 +252,9 @@
             "description": "A basic configuration loading utility.",
             "support": {
                 "issues": "https://github.com/rpurinton/config/issues",
-                "source": "https://github.com/rpurinton/config/tree/1.0.5"
+                "source": "https://github.com/rpurinton/config/tree/1.0.8"
             },
-            "time": "2025-02-18T04:48:50+00:00"
+            "time": "2025-02-18T22:53:19+00:00"
         }
     ],
     "packages-dev": [],
