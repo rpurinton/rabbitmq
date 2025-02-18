@@ -44,6 +44,17 @@ class RabbitMQ
     }
 
     /**
+     * RabbitMQ destructor.
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->loop->stop();
+    }
+
+
+    /**
      * Obtains a channel from an asynchronous client.
      *
      * @param AsyncClient $client The asynchronous client instance.
