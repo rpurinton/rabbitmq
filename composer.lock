@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2738484a93ff407e7fe723073a319a44",
+    "content-hash": "37fb8b1e853148dd6a12d501154faeec",
     "packages": [
         {
             "name": "react/event-loop",
@@ -153,16 +153,16 @@
         },
         {
             "name": "rpurinton/bunny",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rpurinton/bunny.git",
-                "reference": "375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e"
+                "reference": "277c9e740b81ab510326243d5a52139eeb39bf4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rpurinton/bunny/zipball/375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e",
-                "reference": "375dbc7ef4dda5c81f4c7c09dccac9470b4fd88e",
+                "url": "https://api.github.com/repos/rpurinton/bunny/zipball/277c9e740b81ab510326243d5a52139eeb39bf4d",
+                "reference": "277c9e740b81ab510326243d5a52139eeb39bf4d",
                 "shasum": ""
             },
             "require": {
@@ -211,9 +211,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rpurinton/bunny/issues",
-                "source": "https://github.com/rpurinton/bunny/tree/1.0.3"
+                "source": "https://github.com/rpurinton/bunny/tree/1.0.4"
             },
-            "time": "2025-02-18T23:49:00+00:00"
+            "time": "2025-02-18T23:50:44+00:00"
         },
         {
             "name": "rpurinton/config",
