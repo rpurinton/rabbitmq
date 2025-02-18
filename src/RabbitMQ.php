@@ -152,13 +152,13 @@ class RabbitMQ
      */
     private static function config(): array
     {
-        return (new Config("RabbitMQ", [
+        return Config::get("RabbitMQ", [
             "host"      => "string",
             "vhost"     => "string",
             "user"      => "string",
             "password"  => "string",
             "port"      => "int",
             "heartbeat" => "int",
-        ]))->config;
+        ]);
     }
 }

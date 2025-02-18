@@ -8,7 +8,6 @@ use React\EventLoop\Loop;
 RabbitMQ::publish('rabbitmq-test', 'Hello, world!');
 
 $loop = Loop::get();
-
 $mq = new RabbitMQ('rabbitmq-test', function (string $message) use ($loop): void {
     if ($message === 'Hello, world!') {
         echo "Success!\n";
