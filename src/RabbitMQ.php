@@ -49,7 +49,8 @@ class RabbitMQ
     public function run()
     {
         if (!$this->loop) $this->loop = Loop::get();
-        $client = new AsyncClient($this->loop, $this->config());
+        $client = new AsyncClient($this->loop, self::config($this->rabbitMQConfig));
+        
         $client->connect()
             ->then($this->getChannel(...))
             ->then($this->consume(...))
@@ -137,15 +138,15 @@ class RabbitMQ
      *
      * @throws Exception If an error occurs during publishing or cleanup.
      */
-    public static function publish(string $queue, string $data): bool
+    public static function publish(string $queue, string $data, bool $passive = false, bool $durable = false, bool $exclusive = false, bool $autoDelete = false, bool $noWait = false, array $arguments = [], array $rabbitMQConfig = []): bool
     {
         $client = null;
         $channel = null;
         try {
-            $client = new Client(self::config());
+            $client = new Client(self::config($rabbitMQConfig));
             $client->connect();
             $channel = $client->channel();
-            $channel->queueDeclare($queue, false, true, false, false);
+            $channel->queueDeclare($queue, $passive, $durable, $exclusive, $autoDelete, $noWait, $arguments);
             $channel->publish($data, [], '', $queue);
             return true;
         } catch (\Throwable $e) {
@@ -173,7 +174,7 @@ class RabbitMQ
      *
      * @return array The RabbitMQ configuration.
      */
-    private function config(): array
+    private static function config(array $rabbitMQConfig = []): array
     {
         $rules = [
             "host"      => "string",
@@ -183,8 +184,8 @@ class RabbitMQ
             "port"      => "integer",
             "heartbeat" => "integer",
         ];
-        if (!empty($this->rabbitMQConfig)) {
-            foreach ($this->rabbitMQConfig as $key => $value) {
+        if (!empty($rabbitMQConfig)) {
+            foreach ($rabbitMQConfig as $key => $value) {
                 if (!array_key_exists($key, $rules)) {
                     throw new Exception("Invalid RabbitMQ configuration key: $key");
                 }
@@ -192,7 +193,7 @@ class RabbitMQ
                     throw new Exception("Invalid RabbitMQ configuration value for $key: $value");
                 }
             }
-            return $this->rabbitMQConfig;
+            return $rabbitMQConfig;
         }
         return Config::get("RabbitMQ", $rules);
     }
