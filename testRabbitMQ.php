@@ -3,10 +3,12 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use RPurinton\RabbitMQ;
+use React\EventLoop\{Loop, LoopInterface};
 
 RabbitMQ::publish('rabbitmq-test', 'Hello, world!');
 
-$mq = new RabbitMQ('rabbitmq-test', function (string $message): bool {
+$loop = Loop::get();
+RabbitMQ::connect('rabbitmq-test', function (string $message) use ($loop) : bool {
     if ($message === 'Hello, world!') {
         echo "Success!\n";
     } else {
