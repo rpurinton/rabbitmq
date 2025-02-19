@@ -18,4 +18,4 @@ RabbitMQ::connect('rabbitmq-test', function (string $message) use ($loop): bool 
         $loop->stop();
     });
     return true;
-}, $loop);
+}, $loop, false, false, false, true);
