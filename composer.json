@@ -13,7 +13,8 @@
         "php": "^8.0",
         "ext-json": "*",
         "rpurinton/config": "^1.0",
-        "rpurinton/bunny": "^1.0"
+        "rpurinton/bunny": "^1.0",
+        "rpurinton/log": "^1.0"
     },
     "autoload": {
         "psr-4": {
