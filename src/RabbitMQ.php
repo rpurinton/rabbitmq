@@ -17,30 +17,51 @@ use Exception;
  */
 class RabbitMQ
 {
+    public $channel;
     /**
      * RabbitMQ constructor.
      *
      * @param string   $queue    The queue to consume from.
      * @param callable $callback The callback to process messages.
      * @param LoopInterface|null $loop Optional event loop. If null, Loop::get() is used.
-     *
-     * @throws Exception If connection or consumption setup fails.
+     * @param bool     $passive  Whether to passively declare the queue.
+     * @param bool     $durable  Whether the queue is durable.
+     * @param bool     $exclusive Whether the queue is exclusive.
+     * @param bool     $autoDelete Whether the queue is auto-deleted.
+     * @param bool     $noWait   Whether to wait for a reply.
+     * @param array    $arguments Additional arguments for queue declaration.
+     * @param array    $rabbitMQConfig Optional RabbitMQ configuration.
+     * 
      */
     public function __construct(
         private string $queue,
         private $callback,
-        private ?LoopInterface $loop = null
-    ) {
-        if (!$this->loop) {
-            $this->loop = Loop::get();
-        }
-        $client = new AsyncClient($this->loop, self::config());
+        private ?LoopInterface $loop = null,
+        private bool $passive = false,
+        private bool $durable = false,
+        private bool $exclusive = false,
+        private bool $autoDelete = false,
+        private bool $noWait = false,
+        private array $arguments = [],
+        private array $rabbitMQConfig = []
+    ) {}
+
+    public function run()
+    {
+        if (!$this->loop) $this->loop = Loop::get();
+        $client = new AsyncClient($this->loop, $this->config());
         $client->connect()
             ->then($this->getChannel(...))
             ->then($this->consume(...))
             ->catch(function (\Throwable $e): void {
                 throw new Exception("RabbitMQ connection/error: " . $e->getMessage());
             });
+        return $this;
+    }
+
+    public static function connect($queue, $callback, $loop = null, $passive = false, $durable = false, $exclusive = false, $autoDelete = false, $noWait = false, $arguments = [], $rabbitMQConfig = [])
+    {
+        return (new self($queue, $callback, $loop, $passive, $durable, $exclusive, $autoDelete, $noWait, $arguments, $rabbitMQConfig))->run();
     }
 
     /**
@@ -55,7 +76,8 @@ class RabbitMQ
     private function getChannel(AsyncClient $client): Promise
     {
         try {
-            return $client->channel();
+            $this->channel = $client->channel();
+            return $this->channel;
         } catch (\Throwable $e) {
             throw new Exception("Failed to create channel: " . $e->getMessage());
         }
@@ -73,6 +95,7 @@ class RabbitMQ
     private function consume(Channel $channel): void
     {
         try {
+            $channel->queueDeclare($this->queue, $this->passive, $this->durable, $this->exclusive, $this->autoDelete, $this->noWait, $this->arguments);
             $channel->qos(0, 1);
             $channel->consume($this->process(...), $this->queue);
         } catch (\Throwable $e) {
@@ -150,15 +173,27 @@ class RabbitMQ
      *
      * @return array The RabbitMQ configuration.
      */
-    private static function config(): array
+    private function config(): array
     {
-        return Config::get("RabbitMQ", [
+        $rules = [
             "host"      => "string",
             "vhost"     => "string",
             "user"      => "string",
             "password"  => "string",
-            "port"      => "int",
-            "heartbeat" => "int",
-        ]);
+            "port"      => "integer",
+            "heartbeat" => "integer",
+        ];
+        if (!empty($this->rabbitMQConfig)) {
+            foreach ($this->rabbitMQConfig as $key => $value) {
+                if (!array_key_exists($key, $rules)) {
+                    throw new Exception("Invalid RabbitMQ configuration key: $key");
+                }
+                if (gettype($value) !== $rules[$key]) {
+                    throw new Exception("Invalid RabbitMQ configuration value for $key: $value");
+                }
+            }
+            return $this->rabbitMQConfig;
+        }
+        return Config::get("RabbitMQ", $rules);
     }
 }
