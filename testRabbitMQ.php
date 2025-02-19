@@ -5,7 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 use RPurinton\RabbitMQ;
 use React\EventLoop\Loop;
 
-RabbitMQ::publish('rabbitmq-test', 'Hello, world!');
+RabbitMQ::publish('rabbitmq-test', 'Hello, world!', false, false, false, true);
 
 $loop = Loop::get();
 RabbitMQ::connect('rabbitmq-test', function (string $message) use ($loop): bool {
